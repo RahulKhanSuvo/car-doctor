@@ -1,9 +1,10 @@
 import Image from "next/image";
+import Services from "./components/Services";
 
 export default function Home() {
   return (
     <>
-      <h3>Hello world</h3>
+      <Services></Services>
     </>
   );
 }
