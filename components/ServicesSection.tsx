@@ -1,4 +1,5 @@
 import dbConnect from "@/lib/dbConnect";
+import Link from "next/link";
 import React from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 async function ServicesSection() {
@@ -21,9 +22,9 @@ async function ServicesSection() {
               <h2 className="text-xl font-semibold">{item.title}</h2>
               <div className="flex justify-between items-center mt-3">
                 <p className="text-gray-600 mt-2">Price: ${item.price}</p>
-                <button>
+                <Link href={`/services/${item._id}`}>
                   <FaArrowRightLong className="text-[#FF3811]" size={20} />
-                </button>
+                </Link>
               </div>
             </div>
           </div>
