@@ -55,7 +55,9 @@ const NavBar: React.FC = () => {
         <ul className="menu menu-horizontal px-1">{navMenu()}</ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        <div>
+          <Link href={"/register"}>Register</Link>
+        </div>
       </div>
     </div>
   );
