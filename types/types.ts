@@ -12,3 +12,6 @@ export interface ServiceData {
     description: string;
     facility: Facility[];
 }
+export interface Params {
+    id: string
+}

@@ -1,6 +1,8 @@
 import Image from "next/image";
 import DeleteButton from "./components/DeleteButton";
 import { headers } from "next/headers";
+import { Params } from "@/types/types";
+import Link from "next/link";
 
 export default async function MyBooking() {
   let data = [];
@@ -44,7 +46,7 @@ export default async function MyBooking() {
                 <h3>{item.price}</h3>
               </div>
               <div className="space-x-4">
-                <button>Edit</button>
+                <Link href={`/my-booking/${item._id}`}>Edit</Link>
                 <DeleteButton id={item._id} />
               </div>
             </div>
