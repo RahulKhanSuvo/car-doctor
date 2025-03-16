@@ -1,6 +1,13 @@
 import Link from "next/link";
 import React from "react";
 
+interface CheackoutProps {
+  data: {
+    price: number;
+    _id: string;
+  };
+}
+
 export default function Cheackout({ data }: CheackoutProps) {
   return (
     <div className="w-1/4">
