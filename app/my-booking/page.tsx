@@ -7,8 +7,8 @@ export default function MyBooking() {
     _id: string;
     name: string;
     img: string;
+    price: string;
   }
-
   const [data, setData] = useState<Booking[]>([]);
   useEffect(() => {
     const myBookingData = async () => {
@@ -22,11 +22,18 @@ export default function MyBooking() {
   return (
     <div className="container mx-auto">
       <h1>Cart </h1>
-      <div>
+      <div className="space-y-5">
         {data.map((item) => {
           return (
-            <div key={item._id}>
+            <div className="flex justify-between" key={item._id}>
               <Image alt="naf" width={100} height={100} src={item.img} />
+              <div>
+                <h3>{item.price}</h3>
+              </div>
+              <div className="space-x-4">
+                <button>Edit</button>
+                <button>Delete</button>
+              </div>
             </div>
           );
         })}
