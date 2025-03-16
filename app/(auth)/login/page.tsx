@@ -1,12 +1,23 @@
 "use client";
 import SocialLogin from "@/components/SocialLogin";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import React, { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation"; // Updated import
+import React, { FormEvent, useState, useEffect } from "react";
 
 export default function Login() {
   const [error, setError] = useState<string | null>(null);
+  const [callbackUrl, setCallbackUrl] = useState<string>("/");
   const router = useRouter();
+
+  useEffect(() => {
+    // Safely access window location on the client-side
+    const searchParams = new URLSearchParams(window.location.search);
+    const url = searchParams.get("callbackUrl");
+    if (url) {
+      setCallbackUrl(url); // Set callback URL if exists
+    }
+  }, []); // Run this once on component mount
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
@@ -20,15 +31,13 @@ export default function Login() {
       redirect: false,
       email,
       password,
-      callbackUrl: "/",
+      callbackUrl, // Pass dynamic callbackUrl
     });
 
-    // Check what result contains
-    console.log(result);
     if (result?.error) {
       setError("Invalid email or password!");
     } else {
-      router.push("/");
+      router.push(callbackUrl); // Redirect to the intended page
     }
   };
 
@@ -46,8 +55,7 @@ export default function Login() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Password</label>{" "}
-          {/* Fixed label */}
+          <label className="block text-sm font-medium">Password</label>
           <input
             type="password"
             name="password"
@@ -56,13 +64,12 @@ export default function Login() {
             required
           />
         </div>
-        {error && <p className="text-red-500">{error}</p>}{" "}
-        {/* Show error if login fails */}
+        {error && <p className="text-red-500">{error}</p>}
         <button
           type="submit"
           className="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600"
         >
-          Sign In {/* Fixed button text */}
+          Sign In
         </button>
       </form>
       <SocialLogin />

@@ -4,9 +4,10 @@ import { FaGithub, FaGoogle } from "react-icons/fa";
 
 export default function SocialLogin() {
   const handleSocialLogin = async (providerName: string) => {
-    console.log(providerName);
-    const result = await signIn(providerName, { callbackUrl: "/" }); // Redirects after login
-    console.log(result);
+    const callbackUrl =
+      new URLSearchParams(window.location.search).get("callbackUrl") || "/";
+
+    const result = await signIn(providerName, { callbackUrl });
   };
 
   return (
