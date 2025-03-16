@@ -11,7 +11,6 @@ export default async function ServicesDetailsPage({
   const { id } = await Promise.resolve(params);
   const response = await fetch(`http://localhost:3000/api/service/${id}`);
   const data: ServiceData = await response.json();
-  console.log(data);
   return (
     <div className="container mx-auto">
       <section className="flex justify-center w-full h-full">
