@@ -1,8 +1,10 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import { loginUser } from "@/app/actions/auth/login";
-
-export const authOptions = {
+import GoogleProvider from "next-auth/providers/google";
+import GitHubProvider from "next-auth/providers/github";
+import dbConnect, { collectionNameObj } from "@/lib/dbConnect";
+export const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
             name: "Credentials",
@@ -26,12 +28,38 @@ export const authOptions = {
                 }
                 return null;
             }
+        }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID as string,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+        }),
+        GitHubProvider({
+            clientId: process.env.GITHUB_ID as string,
+            clientSecret: process.env.GITHUB_SECRET as string
         })
     ],
     pages: {
         signIn: "/login",
     },
-}
+    callbacks: {
+        async signIn({ user, account, profile, email, credentials }) {
+            console.log('account info', account, 'user info', user);
+            if (account) {
+                const { providerAccountId, provider } = account
+                const { email, image, name } = user
+                const userCollection = dbConnect(collectionNameObj.userCollection)
+                const gUser = await userCollection.findOne({ providerAccountId })
+                if (!gUser) {
+                    const payload = {
+                        providerAccountId, provider, email, image, name
+                    }
+                    await userCollection.insertOne(payload)
+                }
+            }
+            return true
+        }
+    }
+};
 
 const handler = NextAuth(authOptions);
 

@@ -1,6 +1,7 @@
 "use client";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import Image from "next/image";
 import React from "react";
 
 const NavBar: React.FC = () => {
@@ -60,16 +61,24 @@ const NavBar: React.FC = () => {
       </div>
       <div className="navbar-end">
         {status === "authenticated" ? (
-          <>
-            <button onClick={() => signOut()}>logout</button>
-          </>
+          <div className="flex items-center space-x-4">
+            {/* Display profile photo */}
+            {session?.user?.image && (
+              <Image
+                src={session.user.image}
+                alt="Profile"
+                className="w-8 h-8 rounded-full border"
+                width={32} // Ensure you specify width and height for Image
+                height={32}
+              />
+            )}
+            <button onClick={() => signOut()}>Logout</button>
+          </div>
         ) : (
-          <>
-            <div>
-              <Link href={"/register"}>Register</Link>
-              <Link href={"/login"}>Login</Link>
-            </div>
-          </>
+          <div>
+            <Link href={"/register"}>Register</Link>
+            <Link href={"/login"}>Login</Link>
+          </div>
         )}
       </div>
     </div>

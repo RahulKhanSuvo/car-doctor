@@ -1,4 +1,5 @@
 "use client";
+import SocialLogin from "@/components/SocialLogin";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { FormEvent, useState } from "react";
@@ -64,6 +65,7 @@ export default function Login() {
           Sign In {/* Fixed button text */}
         </button>
       </form>
+      <SocialLogin />
     </div>
   );
 }
