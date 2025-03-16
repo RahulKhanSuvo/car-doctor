@@ -25,7 +25,10 @@ export default function MyBooking() {
       <div className="space-y-5">
         {data.map((item) => {
           return (
-            <div className="flex justify-between" key={item._id}>
+            <div
+              className="flex justify-between items-center border p-1"
+              key={item._id}
+            >
               <Image alt="naf" width={100} height={100} src={item.img} />
               <div>
                 <h3>{item.price}</h3>
