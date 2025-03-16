@@ -8,7 +8,7 @@ type Params = {
     };
 };
 
-export const GET = async (req, { params }: Params) => {
+export const GET = async (req: NextResponse, { params }: Params) => {
     const { id } = await Promise.resolve(params);
     const serverCollection = await dbConnect("carCollection");
     const data = await serverCollection.findOne({ _id: new ObjectId(id) });
