@@ -1,16 +1,16 @@
-import dbConnect from "@/lib/dbConnect";
-import { ObjectId } from "mongodb";
+import Cheackout from "@/components/Cheackout";
+import { ServiceData } from "@/types/types";
 import Image from "next/image";
 import React from "react";
-type Params = {
-  params: {
-    id: string;
-  };
-};
-export default async function ServicesDetailsPage({ params }: Params) {
+
+export default async function ServicesDetailsPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const { id } = await Promise.resolve(params);
-  const serverCollection = dbConnect("carCollection");
-  const data = await serverCollection.findOne({ _id: new ObjectId(id) });
+  const response = await fetch(`http://localhost:3000/api/service/${id}`);
+  const data: ServiceData = await response.json();
   console.log(data);
   return (
     <div className="container mx-auto">
@@ -45,10 +45,7 @@ export default async function ServicesDetailsPage({ params }: Params) {
             )}
           </div>
         </div>
-        <div className="w-1/4">
-          <h3>Price {data?.price ?? "N/A"}</h3>
-          <button>Checkout</button>
-        </div>
+        <Cheackout data={data} />
       </section>
     </div>
   );

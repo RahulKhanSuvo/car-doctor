@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
     },
     callbacks: {
         async signIn({ user, account, profile, email, credentials }) {
-            console.log('account info', account, 'user info', user);
+            // console.log('account info', account, 'user info', user);
             if (account) {
                 const { providerAccountId, provider } = account
                 const { email, image, name } = user
