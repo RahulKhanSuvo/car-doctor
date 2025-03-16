@@ -1,7 +1,11 @@
+"use client";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 
 const NavBar: React.FC = () => {
+  const { data: session, status } = useSession();
+
   const navMenu = () => (
     <>
       <li>
@@ -55,9 +59,18 @@ const NavBar: React.FC = () => {
         <ul className="menu menu-horizontal px-1">{navMenu()}</ul>
       </div>
       <div className="navbar-end">
-        <div>
-          <Link href={"/register"}>Register</Link>
-        </div>
+        {status === "authenticated" ? (
+          <>
+            <button onClick={() => signOut()}>logout</button>
+          </>
+        ) : (
+          <>
+            <div>
+              <Link href={"/register"}>Register</Link>
+              <Link href={"/login"}>Login</Link>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
