@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/route";
+import { revalidatePath } from "next/cache";
 
 type Params = {
     params: {
@@ -19,6 +20,7 @@ export const DELETE = async (req: NextResponse, { params }: Params) => {
     const isOwnerOk = currentBooking && session?.user?.email === currentBooking.email
     if (isOwnerOk) {
         const deleteResponse = await bookingCollection.deleteOne({ _id: new ObjectId(id) })
+        revalidatePath('/my-booking')
         return NextResponse.json(deleteResponse)
     } else {
         return NextResponse.json({ success: false, message: 'Forbidden' }, { status: 401 })
